@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+<br />
+{% load crispy_forms_tags %}
+<br />
+{% block css %}
+<style>
+  .container-custom {
+    max-width: 500px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eee;
+  }
+
+  .card-header-custom {
+    background: #0d6efd;
+    color: white;
+    padding: 15px;
+    border-radius: 8px 8px 0 0;
+    text-align: center;
+  }
+
+  .form-label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    display: block;
+    font-size: 14px;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+  }
+  .post {
+    padding: 25px;
+  }
+  input:focus {
+    border-color: #0d6efd;
+    outline: none;
+    box-shadow: 0 0 6px rgba(40, 167, 69, 0.4);
+  }
+
+  .btn-custom {
+    width: 100%;
+    background: #0d6efd;
+    border: none;
+    padding: 12px;
+    color: white;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+  }
+
+  .btn-custom:hover {
+    background: #0d6efd;
+  }
+
+  .alert-error {
+    background: #ffdddd;
+    padding: 10px;
+    border-left: 4px solid #ff5b5b;
+    margin-bottom: 15px;
+    border-radius: 4px;
+  }
+
+  .alert-error small {
+    color: #c0392b;
+  }
+
+  .footer-text {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+
+  .footer-text a {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: bold;
+  }
+</style>
+{% endblock css %} {% block content %}
+
+<div class="container-custom">
+  <div class="card-header-custom">
+    {% if signup %}
+    <h3>Create New Account</h3>
+    {% else %}
+    <h3>Login</h3>
+    {% endif %}
+  </div>
+  <form method="post" class="post">
+    {% csrf_token %} {{ form|crispy }}
+    <br />
+    {% if form.errors %}
+    <div class="alert-error">
+      {% for field, errors in form.errors.items %} {% for error in errors %}
+      <small>{{ error }}</small><br />
+      {% endfor %} {% endfor %}
+    </div>
+    {% endif %} {% if signup %}
+    <button class="btn-custom" type="submit">Register</button>
+    {% else %}
+    <button class="btn-custom" type="submit">Login</button>
+    {% endif %}
+  </form>
+
+  {% if signup %}
+  <p class="footer-text">
+    Already have an account? <a href="{% url 'login' %}">Login here</a>
+  </p>
+  {% else %}
+  <p class="footer-text">
+    Already have an account? <a href="{% url 'register' %}">Register here</a>
+  </p>
+  {% endif %}
+</div>
+
+{% endblock content %}

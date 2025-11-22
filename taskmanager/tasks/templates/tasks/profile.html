@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+<br />
+{% block content %}
+
+<style>
+  .profile-container {
+    max-width: 600px;
+    margin: 0px auto;
+    padding: 0 20px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .card-header {
+    background: #4361ee;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .card-body {
+    padding: 40px;
+  }
+
+  .avatar {
+    width: 120px;
+    height: 120px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    border: 4px solid #4361ee;
+    font-size: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+  }
+
+  .task-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 30px;
+  }
+
+  .task-box {
+    padding: 10px;
+    color: white;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .primary {
+    background: #4361ee;
+  }
+  .success {
+    background: #4caf50;
+  }
+  .warning {
+    background: #ffb300;
+  }
+  .secondary {
+    background: #6c757d;
+  }
+
+  .btn-back {
+    display: inline-block;
+    margin-top: 35px;
+    padding: 12px 35px;
+    border: 2px solid #4361ee;
+    border-radius: 8px;
+    color: #4361ee;
+    font-size: 18px;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+  .btn-back:hover {
+    background: #4361ee;
+    color: white;
+  }
+
+  @media (max-width: 600px) {
+    .task-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+
+<div class="profile-container">
+  <div class="card">
+    <div class="card-header">My Profile</div>
+
+    <div class="card-body">
+      <div style="text-align: center; margin-bottom: 40px">
+        <div class="avatar">
+          {{ profile_info.user.username|slice:":1"|upper }}
+        </div>
+
+        <h2>{{ profile_info.user.username|upper }}</h2>
+
+        <p style="color: gray">
+          {{ profile_info.user.email|default:"Email not set" }}
+        </p>
+
+        <small style="color: gray"
+          >Member since: {{ profile_info.user.date_joined|date:"F Y" }}</small
+        >
+      </div>
+
+      <hr style="margin: 40px 0" />
+
+      <h3 style="text-align: center; color: #4361ee; margin-bottom: 20px">
+        My Task Statistics
+      </h3>
+
+      <div class="task-grid">
+        <div class="task-box primary">
+          {{ profile_info.total_task }}
+          <div style="font-size: 14px; font-weight: normal">Total Tasks</div>
+        </div>
+
+        <div class="task-box success">
+          {{ profile_info.completed_task }}
+          <div style="font-size: 14px; font-weight: normal">Completed</div>
+        </div>
+
+        <div class="task-box warning">
+          {{ profile_info.in_progress_task }}
+          <div style="font-size: 14px; font-weight: normal">In Progress</div>
+        </div>
+
+        <div class="task-box secondary">
+          {{ profile_info.pending_task }}
+          <div style="font-size: 14px; font-weight: normal">Pending</div>
+        </div>
+      </div>
+
+      <div style="text-align: center">
+        <a href="{% url 'task_list' %}" class="btn-back">Back to Tasks</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
